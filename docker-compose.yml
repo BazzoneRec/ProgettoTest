@@ -1,0 +1,36 @@
+services:
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./App/
+    ports:
+      - '5000:80'
+    container_name: ClientContainer
+
+  db:     
+    build:
+      context: ./Database/
+      dockerfile: Dockerfile
+    ports:
+      - '3306:3306'
+    container_name: db
+    environment:
+      MYSQL_DATABASE: entities
+      MYSQL_ROOT_PASSWORD: supersecurepassword
+
+  serviceapi:
+    build:
+      dockerfile: Dockerfile
+      context: ./ServiceAPI/
+    ports:
+      - '8080:80'
+    container_name: ServiceAPIContainer
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+
+    
